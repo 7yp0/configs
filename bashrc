@@ -9,6 +9,7 @@ yellow="\033[0;33m"
 ps1_blue='\['"$blue"'\]'
 ps1_green='\['"$green"'\]'
 ps1_white='\['"$white"'\]'
+ps1_yellow='\['"$yellow"'\]'
 
 parse_git_branch() {
     gitstatus=`git status 2> /dev/null`
@@ -37,6 +38,8 @@ parse_git_branch_color() {
 
     if [[ $br =~ release.* || $br =~ master.* ]]; then
         echo -e "${red}"
+    elif [[ $br =~ develop.* ]]; then
+        echo -e "${yellow}"
     else
         echo -e "${green}"
     fi
@@ -46,4 +49,4 @@ parse_git_branch_color() {
 #export PS1="@\h:\W\$(parse_git_branch) \$ "
 
 # With color:
-export PS1="$ps1_green@\h:$ps1_white\W\[\$(parse_git_branch_color)\]\$(parse_git_branch) $ps1_blue\$$ps1_white "
+export PS1="$ps1_blue@\h:$ps1_white\W\[\$(parse_git_branch_color)\]\$(parse_git_branch) $ps1_blue\$$ps1_white "
