@@ -1,3 +1,7 @@
+source /usr/local/git/contrib/completion/git-completion.bash
+source /usr/local/git/contrib/completion/git-prompt.sh
+GIT_PS1_SHOWDIRTYSTATE=true
+
 # Colors for the prompt
 blue="\033[0;34m"
 white="\033[0;37m"
@@ -21,7 +25,7 @@ parse_git_branch() {
         git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1**)/' | sed "s/*/`printf "${yellow}"`&`printf "${white}"`/g"
     elif [[ `echo $gitstatus | grep "Untracked"` != "" ]]
     then
-        git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1*)/' | sed "s/*/`printf "${red}"`&`printf "${white}"`/g"
+        git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1*)/' | sed "s/*/`printf "${yellow}"`&`printf "${white}"`/g"
     elif [[ `echo $gitstatus | grep "nothing to commit"` != "" ]]
     then
         git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
@@ -36,7 +40,7 @@ parse_git_branch() {
 parse_git_branch_color() {
     br=$(parse_git_branch)
 
-    if [[ $br =~ release.* || $br =~ master.* ]]; then
+    if [[ $br =~ production.* || $br =~ release.* || $br =~ master.* ]]; then
         echo -e "${red}"
     elif [[ $br =~ develop.* ]]; then
         echo -e "${yellow}"
@@ -45,8 +49,5 @@ parse_git_branch_color() {
     fi
 }
 
-# No color:
-#export PS1="@\h:\W\$(parse_git_branch) \$ "
-
 # With color:
-export PS1="$ps1_blue@\h:$ps1_white\W\[\$(parse_git_branch_color)\]\$(parse_git_branch) $ps1_blue\$$ps1_white "
+export PS1="$ps1_blue\u@\h:$ps1_white\w$\[\$(parse_git_branch_color)\]\$(parse_git_branch) $ps1_blue\$$ps1_white "
