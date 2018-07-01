@@ -50,4 +50,4 @@ parse_git_branch_color() {
 }
 
 # With color:
-export PS1="$ps1_blue\u@\h:$ps1_white\w$\[\$(parse_git_branch_color)\]\$(parse_git_branch) $ps1_blue\$$ps1_white "
+export PS1="$ps1_blue\u@\h:$ps1_white\w$\[\$(parse_git_branch_color)\]\[\$(parse_git_branch)\] $ps1_white"
